@@ -6,7 +6,7 @@ pipeline {
         when {
             not {
               anyOf{
-                branch 'develop-klerrie'
+                branch 'firstpipeline'
               }
             }
           }
@@ -26,7 +26,7 @@ pipeline {
       when {
         not {
           anyOf{
-            branch 'develop-klerrie'
+            branch 'firstpipeline'
           }
         }
       }
@@ -40,21 +40,21 @@ pipeline {
       when {
         not {
           anyOf{
-            branch 'develop-klerrie'
+            branch 'firstpipeline'
           }
         }
       }
       steps {
         sh 'echo "docker build phase"'
-        sh 'docker build  -f cidr_convert_api/python/Dockerfile -t wizelinedevops/lehrie-efedi:cidr_app.V${BUILD_NUMBER} .'
-        sh 'docker rmi wizelinedevops/lehrie-efedi:cidr_app.V${BUILD_NUMBER}'
+        sh 'docker build  -f cidr_convert_api/python/Dockerfile -t wizelinedevops/lehrie:cidr_app.V${BUILD_NUMBER} .'
+        sh 'docker rmi wizelinedevops/lehrie:cidr_app.V${BUILD_NUMBER}'
       }
     }
 
     stage('Install App Dependencies') {
         when {
           anyOf {
-            branch 'develop-klerrie'
+            branch 'firstpipeline'
           }
         }
         steps {
@@ -72,7 +72,7 @@ pipeline {
     stage('test') {
       when {
         anyOf {
-          branch 'develop-klerrie'
+          branch 'firstpipeline'
         }
       }
       steps {
@@ -84,32 +84,32 @@ pipeline {
     stage('Build Image') {
       when {
         anyOf {
-          branch 'develop-klerrie'
+          branch 'firstpipeline'
         }
       }
       steps {
         sh 'echo "docker build phase"'
-        sh 'docker build  -f cidr_convert_api/python/Dockerfile -t xxx/lehrie-efedi:cidr_app.V${BUILD_NUMBER} .'
+        sh 'docker build  -f cidr_convert_api/python/Dockerfile -t xxx/lehrie:cidr_app.V${BUILD_NUMBER} .'
       }
     }
 
     stage('Push Image') {
       when {
         anyOf {
-          branch 'develop-klerrie'
+          branch 'firstpipeline'
         }
       }
       steps{
         sh 'echo "Pushing Image to Docker Hub"'
-        sh 'docker push xxx/lehrie-efedi:cidr_app.V${BUILD_NUMBER}'
-        sh 'docker rmi xxx/lehrie-efedi:cidr_app.V${BUILD_NUMBER}'
+        sh 'docker push xxx/lehrie:cidr_app.V${BUILD_NUMBER}'
+        sh 'docker rmi xxx/lehrie:cidr_app.V${BUILD_NUMBER}'
       }
     } 
 
     stage('Deploy to server') {
       when {
         anyOf {
-          branch 'develop-klerrie'
+          branch 'firstpipeline'
         }
       }
       steps{
